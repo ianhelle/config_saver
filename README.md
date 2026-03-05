@@ -35,7 +35,7 @@ the config in:
 ### Minimal Example
 
 ```yaml
-backup_root: "C:\\Users\\you\\OneDrive - Corp\\ConfigBackup"
+backup_root: "%USERPROFILE%\\OneDrive - Corp\\ConfigBackup"
 
 configs:
   vscode_profile:
@@ -47,7 +47,7 @@ configs:
 ### Full Example
 
 ```yaml
-backup_root: "C:\\Users\\you\\OneDrive - Corp\\ConfigBackup"
+backup_root: "%USERPROFILE%\\OneDrive - Corp\\ConfigBackup"
 
 configs:
   # --- VS Code profiles ---
