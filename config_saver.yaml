@@ -37,10 +37,12 @@ configs:
   # --- Registry settings ---
   explorer_context_menu:
     handler: registry
-    description: "Explorer context menu customizations"
+    description: "Explorer settings — classic context menu, show all files"
     keys:
-      - "HKCU\\Software\\Classes\\Directory\\Background\\shell\\MyItem"
-      - "HKCU\\Software\\Classes\\Directory\\shell\\MyItem"
+      # Classic (Windows 10) right-click context menu
+      - "HKCU\\Software\\Classes\\CLSID\\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}"
+      # Explorer Advanced: Hidden=1 (show hidden), HideFileExt=0 (show extensions)
+      - "HKCU\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced"
 
   # --- Environment variables ---
   user_env:
