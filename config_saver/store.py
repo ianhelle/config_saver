@@ -12,11 +12,12 @@ from .utils import expand_path
 class BackupStore:
     """Manages the backup directory structure with latest + timestamped archives."""
 
-    def __init__(self, backup_root: str) -> None:
+    def __init__(self, backup_root: str, *, max_archives: int = 10) -> None:
         """Initialize the backup store with the given root path."""
         self.root = expand_path(backup_root)
         self.latest_dir = self.root / "latest"
         self.archive_dir = self.root / "archive"
+        self.max_archives = max_archives
 
     def ensure_dirs(self) -> None:
         """Create the backup directory structure if it doesn't exist."""
@@ -52,7 +53,14 @@ class BackupStore:
             shutil.copytree(self.latest_dir, dest, dirs_exist_ok=True)
         else:
             dest.mkdir(parents=True, exist_ok=True)
+        self._prune_archives()
         return ts
+
+    def _prune_archives(self) -> None:
+        """Remove oldest archives exceeding max_archives."""
+        archives = self.list_archives()
+        for old_ts in archives[self.max_archives :]:
+            shutil.rmtree(self.archive_dir / old_ts)
 
     def list_archives(self) -> list[str]:
         """List available archive timestamps, newest first."""

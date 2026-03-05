@@ -2,6 +2,7 @@
 # Edit backup_root to point to your persistent OneDrive folder.
 
 backup_root: "C:\\Users\\you\\OneDrive - Corp\\ConfigBackup"
+max_archives: 10
 
 configs:
   # --- VS Code profiles ---
@@ -58,7 +59,7 @@ configs:
     handler: git_repos
     description: "ADO repository enlistments"
     scan_roots:
-      - "E:\\src"
+      - "c:\\src"
 
   # --- Windows personalization ---
   personalization:

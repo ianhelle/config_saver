@@ -120,8 +120,9 @@ configs:
 
 | Field         | Type   | Required | Description                                      |
 |---------------|--------|----------|--------------------------------------------------|
-| `backup_root` | string | Yes      | Path to backup destination (supports `%ENV_VAR%`) |
-| `configs`     | map    | No       | Map of config item name → config item definition  |
+| `backup_root`   | string | Yes      | Path to backup destination (supports `%ENV_VAR%`) |
+| `max_archives`  | int    | No       | Number of timestamped archives to keep (default: 10) |
+| `configs`       | map    | No       | Map of config item name → config item definition  |
 
 ### Config Item Fields
 

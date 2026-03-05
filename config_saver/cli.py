@@ -28,7 +28,7 @@ def _load(config_path: str | None) -> tuple[BackupConfig, BackupStore]:
         sys.exit(1)
 
     cfg = load_config(path)
-    store = BackupStore(cfg.backup_root)
+    store = BackupStore(cfg.backup_root, max_archives=cfg.max_archives)
     store.ensure_dirs()
     return cfg, store
 

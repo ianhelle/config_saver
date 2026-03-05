@@ -101,9 +101,10 @@ class TestFindConfig:
         found = find_config(start_dir=tmp_path)
         assert found == cfg
 
-    def test_not_found_raises(self, tmp_path):
+    def test_not_found_raises(self, tmp_path, monkeypatch):
         """Raises FileNotFoundError when no config exists."""
         empty_dir = tmp_path / "empty"
         empty_dir.mkdir()
+        monkeypatch.chdir(empty_dir)
         with pytest.raises(FileNotFoundError):
             find_config(start_dir=empty_dir)

@@ -48,4 +48,5 @@ class BackupConfig(BaseModel):
     """Top-level configuration schema."""
 
     backup_root: str
+    max_archives: int = 10
     configs: dict[str, ConfigItem] = Field(default_factory=dict)

@@ -114,3 +114,28 @@ class TestBackupStoreListItems:
         ts = store.create_archive_snapshot()
         items = store.list_items(archive_ts=ts)
         assert "only_latest" in items
+
+
+class TestBackupStorePruning:
+    """Tests for archive pruning."""
+
+    def test_prune_keeps_max_archives(self, backup_root):
+        """Old archives are removed when exceeding max_archives."""
+        store = BackupStore(str(backup_root), max_archives=2)
+        store.ensure_dirs()
+        store.item_dir("item1")
+        ts1 = store.create_archive_snapshot()
+        time.sleep(1.1)
+        ts2 = store.create_archive_snapshot()
+        time.sleep(1.1)
+        ts3 = store.create_archive_snapshot()
+        archives = store.list_archives()
+        assert len(archives) == 2
+        assert ts3 in archives
+        assert ts2 in archives
+        assert ts1 not in archives
+
+    def test_default_max_archives(self, backup_root):
+        """Default max_archives is 10."""
+        store = BackupStore(str(backup_root))
+        assert store.max_archives == 10
