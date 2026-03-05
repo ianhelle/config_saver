@@ -1,7 +1,7 @@
 # Config Saver — default configuration
 # Edit backup_root to point to your persistent OneDrive folder.
 
-backup_root: "%USERPROFILE%\\OneDrive - Corp\\ConfigBackup"
+backup_root: "%OneDriveCommercial%\\ConfigBackup"
 max_archives: 10
 
 configs:
