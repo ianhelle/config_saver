@@ -1,0 +1,79 @@
+[project]
+name = "config-saver"
+version = "0.1.0"
+description = "Save and restore critical Windows configuration across VM re-provisions"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "click>=8.1",
+    "pyyaml>=6.0",
+    "pydantic>=2.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov",
+    "ruff",
+    "mypy",
+    "types-PyYAML",
+    "types-click",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.scripts]
+config-saver = "config_saver.cli:cli"
+
+[tool.mypy]
+python_version = "3.14"
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_return_any = true
+warn_unreachable = true
+strict_optional = true
+ignore_missing_imports = true
+
+[tool.ruff]
+line-length = 93
+preview = true
+exclude = [
+    "build",
+    "dist",
+    "venv",
+    ".venv",
+    "docs",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "C90", "I", "D", "UP", "ANN", "S", "A", "C4", "FA", "ISC", "LOG", "G", "T20", "PT", "RET", "ARG", "PTH", "TD", "PLC0415"]
+# ISC001 conflicts with ruff formatter
+ignore = ["E203", "ANN204", "TD003", "D203", "D212", "D416", "ISC001", "S404", "S607"]
+fixable = ["ALL"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "S603", "ANN001", "ANN002", "ANN003", "ANN201", "ARG001", "ARG002", "ARG005", "S106", "RET504", "F841", "PT011", "PLC0415"]
+"tests/conftest.py" = ["S101", "S603", "ANN001", "ANN002", "ANN003", "ANN201", "ARG001", "ARG002", "ARG005", "S106", "RET504", "F841", "PT011", "PLC0415"]
+# T201: print() expected in CLI output; PLC0415: lazy imports avoid heavy startup cost
+"config_saver/cli.py" = ["T201", "PLC0415"]
+# ARG002: handler interface requires config_item even when unused
+"config_saver/handlers/*.py" = ["ARG002"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests",
+]

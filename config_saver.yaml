@@ -1,0 +1,67 @@
+# Config Saver — default configuration
+# Edit backup_root to point to your persistent OneDrive folder.
+
+backup_root: "C:\\Users\\you\\OneDrive - Corp\\ConfigBackup"
+
+configs:
+  # --- VS Code profiles ---
+  vscode:
+    handler: vscode
+    description: "VS Code and Insiders profiles"
+    variants:
+      - code
+      - code-insiders
+
+  # --- File-based configs ---
+  windows_terminal:
+    handler: file
+    description: "Windows Terminal settings"
+    source: "%LOCALAPPDATA%\\Packages\\Microsoft.WindowsTerminal_8wekyb3d8bbwe\\LocalState\\settings.json"
+
+  kusto_connections:
+    handler: file
+    description: "Kusto Explorer connection groups"
+    source: "%LOCALAPPDATA%\\Kusto.Explorer\\ConnectionGroups.xml"
+    hooks:
+      post_restore: |
+        Write-Host "Import connections in Kusto Explorer: Connections > Import..."
+
+  bashrc:
+    handler: file
+    description: "Git Bash configuration"
+    source: "%USERPROFILE%\\.bashrc"
+    additional_files:
+      - "%USERPROFILE%\\.bash_profile"
+      - "%USERPROFILE%\\.gitconfig"
+
+  # --- Registry settings ---
+  explorer_context_menu:
+    handler: registry
+    description: "Explorer context menu customizations"
+    keys:
+      - "HKCU\\Software\\Classes\\Directory\\Background\\shell\\MyItem"
+      - "HKCU\\Software\\Classes\\Directory\\shell\\MyItem"
+
+  # --- Environment variables ---
+  user_env:
+    handler: env_vars
+    description: "User environment variables"
+    scope: user
+    exclude_vars:
+      - "TEMP"
+      - "TMP"
+
+  # --- Git repo enlistments ---
+  ado_repos:
+    handler: git_repos
+    description: "ADO repository enlistments"
+    scan_roots:
+      - "E:\\src"
+
+  # --- Windows personalization ---
+  personalization:
+    handler: personalization
+    description: "Wallpaper and color scheme"
+    settings:
+      - wallpaper
+      - color_scheme
